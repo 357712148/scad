@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="dunshan-home" />
+        <module name="dunshan-cart" />
+        <module name="dunshan-gateway" />
+        <module name="dunshan-order" />
+        <module name="dunshan-common" />
+        <module name="dunshan-member" />
+        <module name="dunshan-admin" />
+        <module name="dunshan-goods" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="dunshan-admin" options="-parameters" />
+      <module name="dunshan-cart" options="-parameters" />
+      <module name="dunshan-common" options="-parameters" />
+      <module name="dunshan-gateway" options="-parameters" />
+      <module name="dunshan-goods" options="-parameters" />
+      <module name="dunshan-home" options="-parameters" />
+      <module name="dunshan-member" options="-parameters" />
+      <module name="dunshan-order" options="-parameters" />
+    </option>
+  </component>
+</project>
