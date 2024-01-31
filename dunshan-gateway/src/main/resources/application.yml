@@ -1,0 +1,55 @@
+server:
+  port: 8004
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    #项目名称必填，在注册中心唯一
+    #最好和之前域名规范、kubernetes service名等保持一致（会作为调用）
+    name: dunshan-gateway
+  cloud:
+    nacos:
+      discovery: #启用 spring cloud nacos discovery
+        server-addr: 127.0.0.1:8848
+    # alibaba在2020版之后不使用ribbon,这里使用loadbalancer代替,在配置文件中禁用ribbon
+    #    loadbalancer:
+    #      ribbon:
+    #        enable: false
+#    sentinel:
+#      transport:
+#        port: 8719
+#        dashboard: localhost:8080
+#      scg:
+#        fallback:
+#          mode: response
+#          response-status: 6666
+#          response-body: '{"code":6666,"message":"你被限流了"}'
+    gateway:
+      # 配置路由规则
+      routes:
+        - id: dunshan-member # 路由id，自定义，只要唯一即可
+          uri: lb://dunshan-member # 路由的目标地址 lb就是负载均衡，后面跟服务名称
+          predicates: # 路由断言，也就是判断请求是否符合路由规则的条件
+            - Path=/api/member/**  # 这个是按照路径匹配，只要以/member/开头就符合要求
+          filters:
+            - RewritePath=/api/member/(?<segment>/?.*),/$\{segment}
+        - id: dunshan-home
+          uri: lb://dunshan-home
+          predicates:
+            - Path=/api/home/**
+          filters:
+            - RewritePath=/api/home/(?<segment>/?.*),/$\{segment}
+# 开启熔断机制
+feign:
+  sentinel:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
